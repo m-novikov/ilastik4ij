@@ -48,6 +48,7 @@ public class IlastikOptions extends OptionsPlugin {
         if (executableLocation != null) {
             final MutableModuleItem<File> executableFileItem = getInfo().getMutableInput("executableFile", File.class);
             executableFileItem.setLabel("Path to ilastik executable, e.g. " + executableLocation);
+            executableFileItem.setDefaultValue(new File(executableLocation));
         }
 	}
 
