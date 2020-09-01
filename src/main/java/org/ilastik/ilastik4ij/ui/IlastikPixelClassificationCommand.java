@@ -1,6 +1,8 @@
 package org.ilastik.ilastik4ij.ui;
 
+import net.imagej.Data;
 import net.imagej.Dataset;
+import net.imagej.DatasetService;
 import net.imagej.ImgPlus;
 import net.imglib2.type.NativeType;
 import org.ilastik.ilastik4ij.executors.PixelClassification;
@@ -32,13 +34,18 @@ public class IlastikPixelClassificationCommand extends DynamicCommand {
     public OptionsService optionsService;
 
     @Parameter
-    public UIService uiService;
+    public DatasetService datasetService;
 
-    @Parameter(label = "Trained ilastik project file")
-    public File projectFileName;
+    @Parameter
+    public UIService uiService;
 
     @Parameter(label = "Raw input image")
     public Dataset inputImage;
+
+    /*
+    @Parameter(label = "Trained ilastik project file")
+    public File projectFileName;
+
 
     @Parameter(label = "Output type", choices = {UiConstants.PIXEL_PREDICTION_TYPE_PROBABILITIES, UiConstants.PIXEL_PREDICTION_TYPE_SEGMENTATION}, style = "radioButtonHorizontal")
     public String pixelClassificationType;
@@ -50,7 +57,10 @@ public class IlastikPixelClassificationCommand extends DynamicCommand {
         useMask = false;
         //resolveInput("useMask"); //this makes the input not be rendered -.-
     }
+    */
 
+
+    /*
     @Parameter(
         label = "Prediction Mask",
         required = false,
@@ -60,6 +70,7 @@ public class IlastikPixelClassificationCommand extends DynamicCommand {
 
     @Parameter(type = ItemIO.OUTPUT)
     private ImgPlus<? extends NativeType<?>> predictions;
+    */
 
     public IlastikOptions ilastikOptions;
 
@@ -72,15 +83,23 @@ public class IlastikPixelClassificationCommand extends DynamicCommand {
         if (ilastikOptions == null)
             ilastikOptions = optionsService.getOptions(IlastikOptions.class);
 
+        IlastikPixelClassificationModel model = new IlastikPixelClassificationModel(logService, datasetService);
+
+        IlastikPixelClassificationDialog dialog = new IlastikPixelClassificationDialog(logService, uiService, model);
+        dialog.setVisible(true);
+
+        /*
         try {
             runClassification();
         } catch (IOException e) {
             logService.error("Pixel classification command failed", e);
             throw new RuntimeException(e);
-        }
+       }
+         */
     }
 
     private void runClassification() throws IOException {
+        /*
         final PixelClassification pixelClassification = new PixelClassification(ilastikOptions.getExecutableFile(),
                 projectFileName, logService, statusService, ilastikOptions.getNumThreads(), ilastikOptions.getMaxRamMb());
 
@@ -91,6 +110,8 @@ public class IlastikPixelClassificationCommand extends DynamicCommand {
             pixelPredictionType
         );
 
+
+         */
         // DisplayUtils.showOutput(uiService, predictions);
     }
 }
